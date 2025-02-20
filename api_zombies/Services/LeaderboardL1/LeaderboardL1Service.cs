@@ -70,13 +70,12 @@ namespace api_zombies.Services.LeaderboardL1
 
         public async Task<IEnumerable<Ronda>> GetClassificationLevel1()
         {
-            String sql = "SELECT Ronda.Id, Ronda.UsuariId, Usuaris.Nom AS UserName,"
+            String sql = "SELECT Ronda.Id, Ronda.UsuariId, Usuaris.Nom AS NomUsuari,"
                 + " Ronda.Segons, Ronda.Creat, Ronda.Modificat"
                 + " FROM Ronda INNER JOIN Usuaris ON Ronda.UsuariId=Usuaris.Id"
                 + " INNER JOIN (SELECT Ronda.UsuariId, MAX(Ronda.Segons) AS MaxSeconds"
                 + " FROM Ronda"
                 + " GROUP BY Ronda.UsuariId) A ON Ronda.UsuariId=A.UsuariId AND Ronda.Segons=A.MaxSeconds"
-                //+ " WHERE Usuaris.Id > 6"
                 + " ORDER BY Ronda.Segons DESC";
             using var connection = _dataContext.CreateConnection();
             var games = await connection.QueryAsync<Ronda>(sql);

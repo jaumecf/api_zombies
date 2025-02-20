@@ -29,6 +29,9 @@ namespace api_zombies.Services.Authentication
             Usuari? newUser = await _dataAccess.InsertUserAsync(user);
             if (newUser != null)
             {
+                string token = CreateToken(user);
+
+                user.Token = token;
                 return newUser;
             }
             return null;
